@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "fablabs-block-extensions-v1-testmod",
+  "version": "${version}",
+  "name": "FabLabs ${libname} version ${libver} testmod",
+  "environment": "*",
+  "depends": {
+    "fablabs-block-extensions-v1": "*"
+  },
+  "entrypoints": {
+    "main": [
+      "io.github.fablabsmc.fablabs.test.blocks.extensions.PistonBehaviourExtensionTest"
+    ]
+  }
+}
