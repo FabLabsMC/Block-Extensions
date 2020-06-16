@@ -32,4 +32,33 @@ public interface AbstractBlockStateExtensions {
 	BlockState asBlockState();
 
 	PistonBehavior getPistonBehavior(World world, BlockPos pos, Direction motionDirection, Direction pistonDirection);
+
+	int getEnchantmentTablePower(World world, BlockPos pos);
+
+	// TODO: shouldSuffocate - Add entity into context
+
+	// TODO: getSoundGroup - Add world and pos for context
+	// May need to coexist with other getSoundGroup method due to some calling contexts not having a world
+
+	// -- BLOCK
+
+	// TODO: blastResistance - State, World, pos, explosion. Maybe specify a behaviour?
+
+	// TODO: canMobSpawnInside - State, World, pos. Maybe the entity?
+
+	// TODO: getSlipperiness - State, World, pos, entity
+
+	// TODO: getVelocityMultipler - State, World, pos, entity
+
+	// TODO: getJumpVelocityMultiplier - State, World, pos, entity
+
+	// --- hypothetical features
+
+	// TODO: Configurable climbing speed (including entity and direction).
+	// Specify this block must be in climbable tag in order to apply.
+	// Or else use a callback for climb speed.
+
+	// TODO: Beacon color modifier
+
+	// TODO: Sticky blocks (can pistons use it like a slime/honey block)
 }

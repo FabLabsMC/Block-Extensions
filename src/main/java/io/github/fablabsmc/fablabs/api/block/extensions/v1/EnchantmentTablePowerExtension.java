@@ -15,40 +15,24 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.fablabsmc.fablabs.test.blocks.extensions;
+package io.github.fablabsmc.fablabs.api.block.extensions.v1;
 
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.PistonBehaviourExtension;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
-import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class PistonBehaviourExtensionTest implements ModInitializer {
-	public static final Block TEST_BLOCK = ExtensionUtils.registerWithItem("test_piston_behaviour_block", new TestBlock());
-
-	@Override
-	public void onInitialize() {
-	}
-
-	// Do not push or retract if the block is in the nether
-	static class TestBlock extends Block implements PistonBehaviourExtension {
-		TestBlock() {
-			super(FabricBlockSettings.of(Material.METAL));
-		}
-
-		@Override
-		public PistonBehavior getPistonBehavior(BlockState state, World world, BlockPos pos, Direction motionDirection, Direction pistonDirection) {
-			if (world.getRegistryKey() == World.NETHER) {
-				return PistonBehavior.BLOCK;
-			}
-
-			return PistonBehavior.NORMAL;
-		}
-	}
+public interface EnchantmentTablePowerExtension {
+	/**
+	 * Gets the enchantment power this block provides.
+	 * If this block should provide no power, the return value should be 0.
+	 *
+	 * <p>This method should be overwritten but not called.
+	 *
+	 * @param state the block state of this block
+	 * @param world the world this is block state is at
+	 * @param pos the position this block state is at
+	 * @return the enchantment power.
+	 */
+	@Deprecated
+	int getEnchantmentTablePower(BlockState state, World world, BlockPos pos);
 }

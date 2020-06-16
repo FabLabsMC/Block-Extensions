@@ -17,38 +17,35 @@
 
 package io.github.fablabsmc.fablabs.test.blocks.extensions;
 
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.PistonBehaviourExtension;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.EnchantmentTablePowerExtension;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
-import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class PistonBehaviourExtensionTest implements ModInitializer {
-	public static final Block TEST_BLOCK = ExtensionUtils.registerWithItem("test_piston_behaviour_block", new TestBlock());
+public class EnchantmentTablePowerExtensionTest implements ModInitializer {
+	public static final Block TEST_POWER_BLOCK = ExtensionUtils.registerWithItem("test_enchantment_power_block", new TestBlock());
 
 	@Override
 	public void onInitialize() {
 	}
 
-	// Do not push or retract if the block is in the nether
-	static class TestBlock extends Block implements PistonBehaviourExtension {
+	private static class TestBlock extends Block implements EnchantmentTablePowerExtension {
 		TestBlock() {
-			super(FabricBlockSettings.of(Material.METAL));
+			super(FabricBlockSettings.of(Material.WOOD));
 		}
 
 		@Override
-		public PistonBehavior getPistonBehavior(BlockState state, World world, BlockPos pos, Direction motionDirection, Direction pistonDirection) {
-			if (world.getRegistryKey() == World.NETHER) {
-				return PistonBehavior.BLOCK;
+		public int getEnchantmentTablePower(BlockState state, World world, BlockPos pos) {
+			if (world.getRegistryKey().equals(World.NETHER)) {
+				return 20;
 			}
 
-			return PistonBehavior.NORMAL;
+			return 1;
 		}
 	}
 }

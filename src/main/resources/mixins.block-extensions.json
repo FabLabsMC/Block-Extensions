@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "AbstractBlockStateMixin",
+    "enchantment.EnchantmentScreenHandlerMixin",
     "piston.PistonBlockMixin",
     "piston.PistonHandlerMixin",
     "shape.ShapeContextMixin",

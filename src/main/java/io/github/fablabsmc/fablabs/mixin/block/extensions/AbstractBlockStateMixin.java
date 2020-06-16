@@ -18,6 +18,7 @@
 package io.github.fablabsmc.fablabs.mixin.block.extensions;
 
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.AbstractBlockStateExtensions;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.EnchantmentTablePowerExtension;
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.PistonBehaviourExtension;
 import org.spongepowered.asm.mixin.Implements;
 import org.spongepowered.asm.mixin.Interface;
@@ -53,5 +54,14 @@ public abstract class AbstractBlockStateMixin implements AbstractBlockStateExten
 		}
 
 		return this.getPistonBehavior();
+	}
+
+	@Override
+	public int getEnchantmentTablePower(World world, BlockPos pos) {
+		if (this.getBlock() instanceof EnchantmentTablePowerExtension) {
+			return ((EnchantmentTablePowerExtension) this.getBlock()).getEnchantmentTablePower(this.shadow$asBlockState(), world, pos);
+		}
+
+		return 0;
 	}
 }

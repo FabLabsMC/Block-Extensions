@@ -33,7 +33,7 @@ public enum ExtensionUtils {
 	public static final ItemGroup TEST_GROUP = FabricItemGroupBuilder.build(id("tests"), () -> new ItemStack(Items.PAPER));
 
 	public static Identifier id(String path) {
-		return new Identifier("fablabs_block_extension_test");
+		return new Identifier("fablabs_block_extension_test", path);
 	}
 
 	public static Block register(String path, Block block) {

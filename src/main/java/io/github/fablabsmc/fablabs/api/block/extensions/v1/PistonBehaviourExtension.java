@@ -22,7 +22,6 @@ import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
 
 public interface PistonBehaviourExtension extends BlockExtension {
 	/**
