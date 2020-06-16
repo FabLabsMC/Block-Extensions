@@ -5,6 +5,8 @@
   "mixins": [
     "AbstractBlockStateMixin",
     "piston.PistonBlockMixin",
-    "piston.PistonHandlerMixin"
+    "piston.PistonHandlerMixin",
+    "shape.ShapeContextMixin",
+    "shape.EntityShapeContextMixin"
   ]
 }

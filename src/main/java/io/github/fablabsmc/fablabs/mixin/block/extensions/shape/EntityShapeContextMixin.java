@@ -15,38 +15,41 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.fablabsmc.fablabs.test.blocks.extensions;
+package io.github.fablabsmc.fablabs.mixin.block.extensions.shape;
 
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import java.util.Optional;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import net.minecraft.block.EntityShapeContext;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
-public enum ExtensionUtils {
-	;
-	public static final ItemGroup TEST_GROUP = FabricItemGroupBuilder.build(id("tests"), () -> new ItemStack(Items.PAPER));
+@Mixin(EntityShapeContext.class)
+public abstract class EntityShapeContextMixin implements ShapeContextMixin {
+	private ItemStack fabric_heldItem = ItemStack.EMPTY;
+	private Entity fabric_entity = null;
 
-	public static Identifier id(String path) {
-		return new Identifier("fablabs_block_extension_test");
+	@Inject(method = "<init>(Lnet/minecraft/entity/Entity;)V", at = @At("TAIL"))
+	private void storeExtraData(Entity entity, CallbackInfo ci) {
+		this.fabric_entity = entity;
+
+		if (entity instanceof LivingEntity) {
+			this.fabric_heldItem = ((LivingEntity) entity).getMainHandStack().copy(); // Make a copy
+		}
 	}
 
-	public static Block register(String path, Block block) {
-		return Registry.register(Registry.BLOCK, id(path), block);
+	@Override
+	public ItemStack getHeldItem() {
+		return this.fabric_heldItem;
 	}
 
-	public static Block registerWithItem(String path, Block block) {
-		return registerWithItem(path, block, new Item.Settings());
-	}
-
-	public static Block registerWithItem(String path, Block block, Item.Settings settings) {
-		Block b = register(path, block);
-		Registry.register(Registry.ITEM, id(path), new BlockItem(block, settings.group(TEST_GROUP)));
-		return b;
+	@Override
+	public Optional<Entity> getEntity() {
+		return Optional.ofNullable(this.fabric_entity);
 	}
 }
