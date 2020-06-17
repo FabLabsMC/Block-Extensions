@@ -19,7 +19,8 @@ package io.github.fablabsmc.fablabs.mixin.block.extensions;
 
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.AbstractBlockStateExtensions;
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.EnchantmentTablePowerExtension;
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.PistonBehaviourExtension;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.PistonBehaviorExtension;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.SlipperinessExtension;
 import org.spongepowered.asm.mixin.Implements;
 import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Intrinsic;
@@ -30,6 +31,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -49,8 +51,8 @@ public abstract class AbstractBlockStateMixin implements AbstractBlockStateExten
 
 	@Override
 	public PistonBehavior getPistonBehavior(World world, BlockPos pos, Direction motionDirection, Direction pistonDirection) {
-		if (this.getBlock() instanceof PistonBehaviourExtension) {
-			return ((PistonBehaviourExtension) this.getBlock()).getPistonBehavior(this.shadow$asBlockState(), world, pos, motionDirection, pistonDirection);
+		if (this.getBlock() instanceof PistonBehaviorExtension) {
+			return ((PistonBehaviorExtension) this.getBlock()).getPistonBehavior(this.shadow$asBlockState(), world, pos, motionDirection, pistonDirection);
 		}
 
 		return this.getPistonBehavior();
@@ -63,5 +65,14 @@ public abstract class AbstractBlockStateMixin implements AbstractBlockStateExten
 		}
 
 		return 0;
+	}
+
+	@Override
+	public float getSlipperiness(World world, BlockPos pos, Entity entity) {
+		if (this.getBlock() instanceof SlipperinessExtension) {
+			return ((SlipperinessExtension) this.getBlock()).getSlipperiness(this.shadow$asBlockState(), world, pos, entity);
+		}
+
+		return this.getBlock().getSlipperiness();
 	}
 }

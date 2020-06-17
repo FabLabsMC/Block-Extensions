@@ -8,6 +8,11 @@
     "piston.PistonBlockMixin",
     "piston.PistonHandlerMixin",
     "shape.ShapeContextMixin",
-    "shape.EntityShapeContextMixin"
+    "shape.EntityShapeContextMixin",
+    "slipperiness.BoatEntityMixin",
+    "slipperiness.ExperienceOrbEntityMixin",
+    "slipperiness.FlyingEntityMixin",
+    "slipperiness.ItemEntityMixin",
+    "slipperiness.LivingEntityMixin"
   ]
 }

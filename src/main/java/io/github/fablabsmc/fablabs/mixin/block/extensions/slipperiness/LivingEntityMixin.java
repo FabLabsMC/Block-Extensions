@@ -15,29 +15,27 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.fablabsmc.fablabs.api.block.extensions.v1;
+package io.github.fablabsmc.fablabs.mixin.block.extensions.slipperiness;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.piston.PistonBehavior;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.AbstractBlockStateExtensions;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 
-public interface PistonBehaviourExtension extends BlockExtension {
-	/**
-	 * Gets the piston behaviour of this block.
-	 *
-	 * <p>This method should be overwritten but not called.
-	 *
-	 * @param state the block state of this block
-	 * @param world the world this is being tested in
-	 * @param pos the position this block is at
-	 * @param motionDirection the direction the block could move
-	 * @param pistonDirection the direction the piston is facing
-	 * @return the piston behaviour.
-	 */
-	@Deprecated
-	default PistonBehavior getPistonBehavior(BlockState state, World world, BlockPos pos, Direction motionDirection, Direction pistonDirection) {
-		return this.getBlock().getPistonBehavior(state);
+@Mixin(LivingEntity.class)
+public abstract class LivingEntityMixin extends Entity {
+	protected LivingEntityMixin() {
+		super(null, null);
+	}
+
+	@Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;getSlipperiness()F"))
+	private float modifySlipperiness(Block block) {
+		final BlockPos pos = this.getVelocityAffectingPos();
+		return AbstractBlockStateExtensions.getExtensions(this.world.getBlockState(pos)).getSlipperiness(this.world, pos, this);
 	}
 }
