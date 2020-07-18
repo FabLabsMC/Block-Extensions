@@ -18,7 +18,6 @@
 package io.github.fablabsmc.fablabs.mixin.block.extensions.slipperiness;
 
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.AbstractBlockStateExtensions;
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.SlipperinessExtension;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

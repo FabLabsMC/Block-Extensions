@@ -11,7 +11,8 @@
     "main": [
       "io.github.fablabsmc.fablabs.test.blocks.extensions.PistonBehaviourExtensionTest",
       "io.github.fablabsmc.fablabs.test.blocks.extensions.EnchantmentTablePowerExtensionTest",
-      "io.github.fablabsmc.fablabs.test.blocks.extensions.SlipperinessExtensionTest"
+      "io.github.fablabsmc.fablabs.test.blocks.extensions.SlipperinessExtensionTest",
+      "io.github.fablabsmc.fablabs.test.blocks.extensions.ClimbableBlockExtensionTest"
     ]
   }
 }
