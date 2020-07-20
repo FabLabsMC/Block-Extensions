@@ -23,7 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public interface PistonBehaviorExtension extends BlockExtension {
+public interface PistonBehaviorExtension {
 	/**
 	 * Gets the piston behavior of this block.
 	 *
@@ -37,7 +37,5 @@ public interface PistonBehaviorExtension extends BlockExtension {
 	 * @return the piston behavior.
 	 */
 	@Deprecated
-	default PistonBehavior getPistonBehavior(BlockState state, World world, BlockPos pos, Direction motionDirection, Direction pistonDirection) {
-		return this.getBlock().getPistonBehavior(state);
-	}
+	PistonBehavior getPistonBehavior(BlockState state, World world, BlockPos pos, Direction motionDirection, Direction pistonDirection);
 }

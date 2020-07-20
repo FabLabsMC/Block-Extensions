@@ -46,10 +46,6 @@ public interface AbstractBlockStateExtensions {
 
 	// --- hypothetical features
 
-	// TODO: Configurable climbing speed (including entity and direction).
-	// Specify this block must be in climbable tag in order to apply.
-	// Or else use a callback for climb speed.
-
 	// TODO: Beacon color modifier - May be a little hard due to having to replace an instanceof and cast to get a float[] in BeaconBlockEntity
 
 	// TODO: Sticky blocks (can pistons use it like a slime/honey block)
