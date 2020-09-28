@@ -18,6 +18,7 @@
 package io.github.fablabsmc.fablabs.mixin.block.extensions.climbable;
 
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.ClimbableBlockEvents;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.TypedTriState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -32,14 +33,16 @@ import net.minecraft.tag.Tag;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;
 
+import net.fabricmc.fabric.api.util.TriState;
+
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity {
+abstract class LivingEntityMixin extends Entity {
 	private LivingEntityMixin() {
 		super(null, null);
 	}
 
 	@Unique
-	private TypedActionResult<Double> currentClimbingSpeed = TypedActionResult.pass(0.0D);
+	private TypedTriState<Double> currentClimbingSpeed = TypedTriState.defaultValue(0.0D);
 
 	@Shadow
 	public abstract BlockState getBlockState();
@@ -47,8 +50,8 @@ public abstract class LivingEntityMixin extends Entity {
 	@Redirect(method = "isClimbing", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;isIn(Lnet/minecraft/tag/Tag;)Z"))
 	private boolean checkIfClimbing(Block block, Tag<Block> tag) {
 		if (block.isIn(tag)) {
-			this.currentClimbingSpeed = ClimbableBlockEvents.climbEvent(block).invoker().getClimbingSpeed(this.getBlockState(), this.world, this, this.getBlockPos());
-			return this.currentClimbingSpeed.getResult() != ActionResult.FAIL;
+			this.currentClimbingSpeed = ClimbableBlockEvents.event(block).invoker().getClimbingSpeed(this.getBlockState(), this.world, this, this.getBlockPos());
+			return this.currentClimbingSpeed.getResult() != TriState.FALSE;
 		}
 
 		return false;

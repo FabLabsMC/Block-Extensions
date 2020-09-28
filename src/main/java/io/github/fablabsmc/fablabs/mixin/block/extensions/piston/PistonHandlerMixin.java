@@ -17,7 +17,7 @@
 
 package io.github.fablabsmc.fablabs.mixin.block.extensions.piston;
 
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.AbstractBlockStateExtensions;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.BlockExtensions;
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.PistonBehaviorExtension;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,7 +38,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 @Mixin(PistonHandler.class)
-public abstract class PistonHandlerMixin {
+abstract class PistonHandlerMixin {
 	@Shadow
 	@Final
 	private World world;
@@ -63,9 +63,9 @@ public abstract class PistonHandlerMixin {
 	 */
 	@Redirect(method = "tryMove", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getPistonBehavior()Lnet/minecraft/block/piston/PistonBehavior;"))
 	private PistonBehavior getBehaviourBeforeBreakingBlocks(BlockState state, BlockPos pos, Direction dir) {
-		final AbstractBlockStateExtensions extensions = AbstractBlockStateExtensions.getExtensions(state);
+		final BlockExtensions extensions = BlockExtensions.get(state);
 
-		if (extensions.asBlockState().getBlock() instanceof PistonBehaviorExtension) {
+		if (state.getBlock() instanceof PistonBehaviorExtension) {
 			return extensions.getPistonBehavior(this.world, this.fabric_currentPos, this.motionDirection, this.pistonDirection);
 		}
 

@@ -17,7 +17,7 @@
 
 package io.github.fablabsmc.fablabs.mixin.block.extensions.slipperiness;
 
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.AbstractBlockStateExtensions;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.BlockExtensions;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -27,10 +27,10 @@ import net.minecraft.entity.mob.FlyingEntity;
 import net.minecraft.util.math.BlockPos;
 
 @Mixin(FlyingEntity.class)
-public abstract class FlyingEntityMixin extends LivingEntityMixin {
+abstract class FlyingEntityMixin extends LivingEntityMixin {
 	@Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;getSlipperiness()F"))
 	private float modifySlipperiness(Block block) {
 		final BlockPos pos = new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ());
-		return AbstractBlockStateExtensions.getExtensions(this.world.getBlockState(pos)).getSlipperiness(this.world, pos, this);
+		return BlockExtensions.get(this.world.getBlockState(pos)).getSlipperiness(this.world, pos, this);
 	}
 }

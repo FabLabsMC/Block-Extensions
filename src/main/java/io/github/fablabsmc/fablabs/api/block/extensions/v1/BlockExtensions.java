@@ -18,25 +18,55 @@
 package io.github.fablabsmc.fablabs.api.block.extensions.v1;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.Entity;
+import net.minecraft.loot.context.LootContext;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public interface AbstractBlockStateExtensions {
-	static AbstractBlockStateExtensions getExtensions(AbstractBlock.AbstractBlockState state) {
-		return (AbstractBlockStateExtensions) state;
+/*
+* Not covered:
+* Beacon beam color - Horrid mixin in BeaconBlockEntity, this will require better tooling in future to support.
+*/
+/**
+ * An accessor for getting values used in block extensions.
+ *
+ * @apiNote This interface is not for implementation by users.
+ */
+public interface BlockExtensions {
+	/**
+	 * Gets block extensions for a block state.
+	 *
+	 * @param state the block state
+	 * @return the block extensions
+	 */
+	static BlockExtensions get(AbstractBlock.AbstractBlockState state) {
+		return (BlockExtensions) state;
 	}
-
-	BlockState asBlockState();
 
 	PistonBehavior getPistonBehavior(World world, BlockPos pos, Direction motionDirection, Direction pistonDirection);
 
+	/**
+	 * Gets the enchantment power this block provides.
+	 * If this block should provide no power, the return value should be 0.
+	 *
+	 * <p>Note that the {@link Blocks#BOOKSHELF bookshelves} will return 0.
+	 *
+	 * @param world the world
+	 * @param pos the position of the block
+	 * @return the enchantment power.
+	 */
 	int getEnchantmentTablePower(World world, BlockPos pos);
 
 	float getSlipperiness(World world, BlockPos pos, Entity entity);
+
+	Identifier getLootTableId(LootContext.Builder builder);
+
+	int getMoisture(BlockView world, BlockPos pos);
 
 	// -- BLOCK
 
@@ -46,7 +76,11 @@ public interface AbstractBlockStateExtensions {
 
 	// --- hypothetical features
 
-	// TODO: Beacon color modifier - May be a little hard due to having to replace an instanceof and cast to get a float[] in BeaconBlockEntity
-
 	// TODO: Sticky blocks (can pistons use it like a slime/honey block)
+
+	// TODO: Plants
+
+	// TODO: Exp drop?
+
+	// TODO: Connectable to fences/walls?
 }

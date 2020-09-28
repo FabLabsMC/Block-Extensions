@@ -22,18 +22,32 @@ import io.github.fablabsmc.fablabs.impl.block.extensions.ClimbableBlockExtension
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import net.fabricmc.fabric.api.event.Event;
 
+/**
+ * Holds the event for climbable blocks.
+ * Note the block must be in the {@link BlockTags#CLIMBABLE climbable tag} for these events to be fired.
+ */
 public final class ClimbableBlockEvents {
-	public static Event<ClimbBlock> climbEvent(Block block) {
+	public static Event<Climb> event(Block block) {
 		return ((ClimbableBlockExtension) block).fabric_getClimbEvent();
 	}
 
-	public interface ClimbBlock {
-		TypedActionResult<Double> getClimbingSpeed(BlockState state, World world, Entity entity, BlockPos pos);
+	public interface Climb {
+		/**
+		 * Gets the climbing speed of a block.
+		 *
+		 * @param state the block state
+		 * @param world the world
+		 * @param entity the entity that is climbing
+		 * @param pos the position the entity is climbing at
+		 * @return an action result which contains the climbing speed.
+		 * If the result is {@link net.minecraft.util.ActionResult#FAIL}, the entity will not climb.
+		 */
+		TypedTriState<Double> getClimbingSpeed(BlockState state, World world, Entity entity, BlockPos pos);
 	}
 }

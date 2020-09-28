@@ -17,7 +17,7 @@
 
 package io.github.fablabsmc.fablabs.mixin.block.extensions.enchantment;
 
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.AbstractBlockStateExtensions;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.BlockExtensions;
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.EnchantmentTablePowerExtension;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -34,7 +34,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 @Mixin(EnchantmentScreenHandler.class)
-public abstract class EnchantmentScreenHandlerMixin {
+abstract class EnchantmentScreenHandlerMixin {
 	@Unique
 	private BlockPos fabric_currentPos;
 	@Unique
@@ -49,7 +49,7 @@ public abstract class EnchantmentScreenHandlerMixin {
 	@Redirect(method = "method_17411(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"))
 	private boolean calculateEnchantmentPower(BlockState state, Block block, ItemStack stack, World world, BlockPos enchantmentTablePos) {
 		if (state.getBlock() instanceof EnchantmentTablePowerExtension) {
-			this.fabric_extraPowerLevel += AbstractBlockStateExtensions.getExtensions(state).getEnchantmentTablePower(world, this.fabric_currentPos);
+			this.fabric_extraPowerLevel += BlockExtensions.get(state).getEnchantmentTablePower(world, this.fabric_currentPos);
 			return false; // Don't add the +1 power vanilla normally does, so return false
 		}
 

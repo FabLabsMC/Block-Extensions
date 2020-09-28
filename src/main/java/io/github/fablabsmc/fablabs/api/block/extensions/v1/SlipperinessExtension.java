@@ -17,6 +17,8 @@
 
 package io.github.fablabsmc.fablabs.api.block.extensions.v1;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -34,6 +36,6 @@ public interface SlipperinessExtension {
 	 * @param entity the entity moving over the block
 	 * @return the piston behavior.
 	 */
-	@Deprecated
+	@ApiStatus.OverrideOnly
 	float getSlipperiness(BlockState state, World world, BlockPos pos, Entity entity);
 }

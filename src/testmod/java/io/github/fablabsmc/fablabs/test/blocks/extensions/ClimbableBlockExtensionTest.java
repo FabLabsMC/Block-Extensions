@@ -19,9 +19,11 @@ package io.github.fablabsmc.fablabs.test.blocks.extensions;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.OptionalDouble;
 
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.ClimbableBlockEvents;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.TypedTriState;
+import org.spongepowered.asm.mixin.MixinEnvironment;
+
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 
@@ -61,12 +63,14 @@ public class ClimbableBlockExtensionTest implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ClimbableBlockEvents.climbEvent(ClimbableBlockExtensionTest.TEST_CLIMBABLE_BLOCK).register((state, world, entity, pos) -> {
+		MixinEnvironment.getCurrentEnvironment().audit();
+
+		ClimbableBlockEvents.event(ClimbableBlockExtensionTest.TEST_CLIMBABLE_BLOCK).register((state, world, entity, pos) -> {
 			if (state.get(TestBlock.FACING) == Direction.DOWN || state.get(TestBlock.FACING) == Direction.UP) {
-				return TypedActionResult.fail(0.0D);
+				return TypedTriState.falseValue(0.0D);
 			}
 
-			return TypedActionResult.success(1000.35D);
+			return TypedTriState.trueValue(1000.35D);
 		});
 	}
 

@@ -17,6 +17,8 @@
 
 package io.github.fablabsmc.fablabs.api.block.extensions.v1;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.util.math.BlockPos;
@@ -36,6 +38,6 @@ public interface PistonBehaviorExtension {
 	 * @param pistonDirection the direction the piston is facing
 	 * @return the piston behavior.
 	 */
-	@Deprecated
+	@ApiStatus.OverrideOnly
 	PistonBehavior getPistonBehavior(BlockState state, World world, BlockPos pos, Direction motionDirection, Direction pistonDirection);
 }

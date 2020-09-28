@@ -10,11 +10,11 @@ import net.minecraft.block.Block;
 import net.fabricmc.fabric.api.event.Event;
 
 @Mixin(Block.class)
-public abstract class BlockMixin implements ClimbableBlockExtension {
+abstract class BlockMixin implements ClimbableBlockExtension {
 	@Unique
-	private Event<ClimbableBlockEvents.ClimbBlock> fabric_climbEvent = ClimbableBlockExtension.createEvent();
+	private Event<ClimbableBlockEvents.Climb> fabric_climbEvent = ClimbableBlockExtension.createEvent();
 
-	public Event<ClimbableBlockEvents.ClimbBlock> fabric_getClimbEvent() {
+	public Event<ClimbableBlockEvents.Climb> fabric_getClimbEvent() {
 		return this.fabric_climbEvent;
 	}
 }

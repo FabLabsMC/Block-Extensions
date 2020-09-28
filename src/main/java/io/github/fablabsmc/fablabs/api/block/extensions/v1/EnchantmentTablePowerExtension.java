@@ -17,6 +17,8 @@
 
 package io.github.fablabsmc.fablabs.api.block.extensions.v1;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -33,6 +35,6 @@ public interface EnchantmentTablePowerExtension {
 	 * @param pos the position this block state is at
 	 * @return the enchantment power.
 	 */
-	@Deprecated
+	@ApiStatus.OverrideOnly
 	int getEnchantmentTablePower(BlockState state, World world, BlockPos pos);
 }

@@ -27,7 +27,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 
 @Mixin(ShapeContext.class)
-public interface ShapeContextMixin extends ShapeContextExtensions {
+interface ShapeContextMixin extends ShapeContextExtensions {
 	@Override
 	default ItemStack getHeldItem() {
 		return ItemStack.EMPTY;

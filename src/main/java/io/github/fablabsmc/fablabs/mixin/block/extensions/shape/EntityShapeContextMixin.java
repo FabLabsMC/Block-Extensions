@@ -31,7 +31,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 
 @Mixin(EntityShapeContext.class)
-public abstract class EntityShapeContextMixin implements ShapeContextExtensions {
+abstract class EntityShapeContextMixin implements ShapeContextExtensions {
 	private ItemStack fabric_heldItem = ItemStack.EMPTY;
 	private Entity fabric_entity = null;
 

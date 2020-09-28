@@ -23,12 +23,23 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 
+/**
+ * Extensions of {@link ShapeContext shape context} which provides access to additional hidden information.
+ */
 public interface ShapeContextExtensions {
-	static ShapeContextExtensions getExtensions(ShapeContext context) {
+	static ShapeContextExtensions get(ShapeContext context) {
 		return (ShapeContextExtensions) context;
 	}
 
+	/**
+	 * Gets the item the entity is holding in the main hand.
+	 *
+	 * @return the item stack, may be empty
+	 */
 	ItemStack getHeldItem();
 
+	/**
+	 * @return the entity in the shape context, otherwise {@link Optional#empty()}.
+	 */
 	Optional<Entity> getEntity();
 }
