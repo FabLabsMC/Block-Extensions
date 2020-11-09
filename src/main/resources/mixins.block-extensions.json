@@ -17,5 +17,8 @@
     "slipperiness.FlyingEntityMixin",
     "slipperiness.ItemEntityMixin",
     "slipperiness.LivingEntityMixin"
+  ],
+  "client": [
+    "enchantment.EnchantingTableBlockMixin"
   ]
 }
