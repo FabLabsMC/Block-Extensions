@@ -17,6 +17,8 @@
 
 package io.github.fablabsmc.fablabs.mixin.block.extensions.enchantment;
 
+import java.util.Random;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -24,15 +26,24 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.EnchantmentTablePowerExtension;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.EnchantingTableBlock;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 @Mixin(EnchantingTableBlock.class)
-class EnchantingTableBlockMixin {
+abstract class EnchantingTableBlockMixin extends BlockWithEntity {
+	private EnchantingTableBlockMixin(Settings settings) {
+		super(settings);
+	}
+
 	@Redirect(method = "randomDisplayTick(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Ljava/util/Random;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"))
-	private boolean spawnParticle(BlockState state, Block block) {
+	private boolean spawnParticle(BlockState state, Block block, BlockState state1, World world, BlockPos pos, Random random) {
 		if (state.getBlock() instanceof EnchantmentTablePowerExtension) {
-			return true;
+			if (((EnchantmentTablePowerExtension) state.getBlock()).getEnchantmentTablePower(state, world, pos) > 0) {
+				return true;
+			}
 		}
 
 		return state.isOf(Blocks.BOOKSHELF); // Vanilla fallback
