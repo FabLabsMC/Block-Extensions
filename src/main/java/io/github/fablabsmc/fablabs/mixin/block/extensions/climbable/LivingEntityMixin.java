@@ -30,8 +30,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.tag.Tag;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.TypedActionResult;
 
 import net.fabricmc.fabric.api.util.TriState;
 

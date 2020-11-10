@@ -7,7 +7,7 @@
     "climbable.BlockMixin",
     "climbable.LivingEntityMixin",
     "enchantment.EnchantmentScreenHandlerMixin",
-    "moisture.CropBlockMixin",
+    "mapcolor.AbstractBlockStateMixin",
     "piston.PistonBlockMixin",
     "piston.PistonHandlerMixin",
     "shape.EntityShapeContextMixin",

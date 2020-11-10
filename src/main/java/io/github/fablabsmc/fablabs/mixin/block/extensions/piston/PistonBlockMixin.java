@@ -17,7 +17,7 @@
 
 package io.github.fablabsmc.fablabs.mixin.block.extensions.piston;
 
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.BlockExtensions;
+import io.github.fablabsmc.fablabs.impl.block.extensions.BlockStateExtensions;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -37,6 +37,6 @@ abstract class PistonBlockMixin {
 	 */
 	@Redirect(method = "isMovable", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getPistonBehavior()Lnet/minecraft/block/piston/PistonBehavior;"))
 	private static PistonBehavior onPistonBehaviour(BlockState state, BlockState duplicateState, World world, BlockPos pos, Direction motionDir, boolean canBreak, Direction pistonDir) {
-		return BlockExtensions.get(state).getPistonBehavior(world, pos, motionDir, pistonDir);
+		return BlockStateExtensions.get(state).getPistonBehavior(world, pos, motionDir, pistonDir);
 	}
 }

@@ -1,86 +1,73 @@
-/*
- * Copyright 2020 FabLabsMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- *  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- *  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- *  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 package io.github.fablabsmc.fablabs.api.block.extensions.v1;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Blocks;
+import io.github.fablabsmc.fablabs.impl.block.extensions.BlockStateExtensions;
+
+import net.minecraft.block.AbstractBlock.AbstractBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-/*
-* Not covered:
-* Beacon beam color - Horrid mixin in BeaconBlockEntity, this will require better tooling in future to support.
-*/
 /**
- * An accessor for getting values used in block extensions.
+ * The purpose of this API is to provide mods with additional context when calculating values such as how slippery a block is.
+ * This class acts as a central dispatch for all block extension methods provided by Fabric API.
+ * Vanilla Minecraft does support most of the methods in this class but does so with little to no context including the
+ * world, position of the block or the block state.
  *
- * @apiNote This interface is not for implementation by users.
+ * <p>This class is primarily for use by mods.
+ * For example a mod which implements custom pistons may simply use {@link AbstractBlockState#getPistonBehavior()} in
+ * order to get a blocks piston behavior.
+ * However that method provides little to no context to any mods which may for example want a block which may only be
+ * pushed in a certain dimension.
+ * Depending on how the mod developer of the block being pushed has decided, the block may be considered as immovable
+ * since the mod developer cannot guarantee the block is in a certain dimension or vice versa where the block's movement
+ * exceeds what should occur.
+ * To solve this problem, the custom piston may use {@link BlockExtensions#getPistonBehavior(BlockState, World, BlockPos, Direction, Direction)}
+ * in order to provide the additional context a mod may need in order to determine the piston behavior.
+ *
+ * <p>For mods which call methods in this class, it is <em>highly</em> recommended to prefer the method with the most specific calling context.
+ * For example if you have a world, block position and block state you are advised to use the corresponding method call from
+ * this class in order to get the most preferred outcome of a specific block behavior.
+ * There is no need for a mod to verify that a block supports a specific extension interface as the internal dispatch logic
+ * will automatically select the most precise method context supported by the block.
+ * Hence it is encouraged to prefer method calls from this class over method calls in {@link BlockState}.
  */
-public interface BlockExtensions {
+public final class BlockExtensions {
 	/**
-	 * Gets block extensions for a block state.
+	 * Gets the piston behavior of a block, taking the world, block's state, position, motion direction and a piston's
+	 * facing direction into account.
 	 *
 	 * @param state the block state
-	 * @return the block extensions
-	 */
-	static BlockExtensions get(AbstractBlock.AbstractBlockState state) {
-		return (BlockExtensions) state;
-	}
-
-	PistonBehavior getPistonBehavior(World world, BlockPos pos, Direction motionDirection, Direction pistonDirection);
-
-	/**
-	 * Gets the enchantment power this block provides.
-	 * If this block should provide no power, the return value should be 0.
-	 *
-	 * <p>Note that the {@link Blocks#BOOKSHELF bookshelves} will return 0.
-	 *
 	 * @param world the world
 	 * @param pos the position of the block
-	 * @return the enchantment power.
+	 * @param motionDirection the direction this block will be moved in
+	 * @param pistonDirection the direction the piston is facing that is causing the movement
+	 * @return the piston behavior.
 	 */
-	int getEnchantmentTablePower(World world, BlockPos pos);
+	public static PistonBehavior getPistonBehavior(BlockState state, World world, BlockPos pos, Direction motionDirection, Direction pistonDirection) {
+		return getExtensions(state).getPistonBehavior(world, pos, motionDirection, pistonDirection);
+	}
 
-	float getSlipperiness(World world, BlockPos pos, Entity entity);
+	public static int getEnchantmentTablePower(BlockState state, World world, BlockPos pos) {
+		return getExtensions(state).getEnchantmentTablePower(world, pos);
+	}
 
-	Identifier getLootTableId(LootContext.Builder builder);
+	public static float getSlipperiness(BlockState state, World world, BlockPos pos, Entity entity) {
+		return getExtensions(state).getSlipperiness(world, pos, entity);
+	}
 
-	int getMoisture(BlockView world, BlockPos pos);
+	public static Identifier getLootTableId(BlockState state, LootContext.Builder builder) {
+		return getExtensions(state).getLootTableId(builder);
+	}
 
-	// -- BLOCK
+	private static BlockStateExtensions getExtensions(BlockState state) {
+		return (BlockStateExtensions) state;
+	}
 
-	// TODO: getVelocityMultipler - State, World, pos, entity
-
-	// TODO: getJumpVelocityMultiplier - State, World, pos, entity
-
-	// --- hypothetical features
-
-	// TODO: Sticky blocks (can pistons use it like a slime/honey block)
-
-	// TODO: Plants
-
-	// TODO: Exp drop?
-
-	// TODO: Connectable to fences/walls?
+	private BlockExtensions() {
+	}
 }

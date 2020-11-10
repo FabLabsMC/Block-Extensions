@@ -22,8 +22,8 @@ import java.util.Random;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.EnchantmentTablePowerExtension;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -32,6 +32,10 @@ import net.minecraft.block.EnchantingTableBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
+@Environment(EnvType.CLIENT)
 @Mixin(EnchantingTableBlock.class)
 abstract class EnchantingTableBlockMixin extends BlockWithEntity {
 	private EnchantingTableBlockMixin(Settings settings) {
@@ -39,8 +43,9 @@ abstract class EnchantingTableBlockMixin extends BlockWithEntity {
 	}
 
 	@Redirect(method = "randomDisplayTick(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Ljava/util/Random;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"))
-	private boolean spawnParticle(BlockState state, Block block, BlockState state1, World world, BlockPos pos, Random random) {
+	private boolean spawnParticle(BlockState state, Block block, BlockState unused, World world, BlockPos pos, Random random) {
 		if (state.getBlock() instanceof EnchantmentTablePowerExtension) {
+			// Require power > 0 for particles to be emitted
 			if (((EnchantmentTablePowerExtension) state.getBlock()).getEnchantmentTablePower(state, world, pos) > 0) {
 				return true;
 			}
