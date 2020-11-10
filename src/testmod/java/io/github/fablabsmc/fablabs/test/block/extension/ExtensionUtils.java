@@ -15,40 +15,37 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.fablabsmc.fablabs.test.blocks.extensions;
-
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.SlipperinessExtension;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+package io.github.fablabsmc.fablabs.test.block.extension;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
-public class SlipperinessExtensionTest implements ModInitializer {
-	public static final Block SLIPPERY_TEST = ExtensionUtils.registerWithItem("slippery", new TestBlock());
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 
-	@Override
-	public void onInitialize() {
+final class ExtensionUtils {
+	public static final ItemGroup TEST_GROUP = FabricItemGroupBuilder.build(id("tests"), () -> new ItemStack(Items.PAPER));
+
+	public static Identifier id(String path) {
+		return new Identifier("fablabs_block_extension_test", path);
 	}
 
-	private static class TestBlock extends Block implements SlipperinessExtension {
-		TestBlock() {
-			super(FabricBlockSettings.of(Material.METAL));
-		}
+	public static Block register(String path, Block block) {
+		return Registry.register(Registry.BLOCK, id(path), block);
+	}
 
-		@Override
-		public float getSlipperiness(BlockState state, World world, BlockPos pos, Entity entity) {
-			System.out.println("yeet");
-			if (entity instanceof PlayerEntity) {
-				return 1.0F;
-			}
+	public static Block registerWithItem(String path, Block block) {
+		return registerWithItem(path, block, new Item.Settings());
+	}
 
-			return 0.0F;
-		}
+	public static Block registerWithItem(String path, Block block, Item.Settings settings) {
+		Block b = register(path, block);
+		Registry.register(Registry.ITEM, id(path), new BlockItem(block, settings.group(TEST_GROUP)));
+		return b;
 	}
 }

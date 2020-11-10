@@ -15,38 +15,38 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.fablabsmc.fablabs.test.blocks.extensions;
+package io.github.fablabsmc.fablabs.test.block.extension;
 
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.EnchantmentTablePowerExtension;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Material;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public enum ExtensionUtils {
-	;
-	public static final ItemGroup TEST_GROUP = FabricItemGroupBuilder.build(id("tests"), () -> new ItemStack(Items.PAPER));
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 
-	public static Identifier id(String path) {
-		return new Identifier("fablabs_block_extension_test", path);
+public class EnchantmentTablePowerExtensionTest implements ModInitializer {
+	public static final Block TEST_POWER_BLOCK = ExtensionUtils.registerWithItem("test_enchantment_power_block", new TestBlock());
+
+	@Override
+	public void onInitialize() {
 	}
 
-	public static Block register(String path, Block block) {
-		return Registry.register(Registry.BLOCK, id(path), block);
-	}
+	private static class TestBlock extends Block implements EnchantmentTablePowerExtension {
+		TestBlock() {
+			super(FabricBlockSettings.of(Material.WOOD));
+		}
 
-	public static Block registerWithItem(String path, Block block) {
-		return registerWithItem(path, block, new Item.Settings());
-	}
+		@Override
+		public int getEnchantmentTablePower(BlockState state, World world, BlockPos pos) {
+			if (world.getRegistryKey().equals(World.NETHER)) {
+				return 20;
+			}
 
-	public static Block registerWithItem(String path, Block block, Item.Settings settings) {
-		Block b = register(path, block);
-		Registry.register(Registry.ITEM, id(path), new BlockItem(block, settings.group(TEST_GROUP)));
-		return b;
+			return 1;
+		}
 	}
 }

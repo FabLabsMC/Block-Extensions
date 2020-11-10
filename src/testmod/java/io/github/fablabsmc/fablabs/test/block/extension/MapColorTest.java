@@ -1,4 +1,4 @@
-package io.github.fablabsmc.fablabs.test.blocks.extensions;
+package io.github.fablabsmc.fablabs.test.block.extension;
 
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.MapColorExtension;
 import org.jetbrains.annotations.Nullable;
@@ -14,7 +14,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.text.MutableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
@@ -38,7 +37,7 @@ public final class MapColorTest implements ModInitializer {
 	private static final class TestBlock extends Block implements MapColorExtension {
 		private static final EnumProperty<DyeColor> COLOR = EnumProperty.of("color", DyeColor.class);
 
-		public TestBlock() {
+		TestBlock() {
 			// The Map Color specified by the Material is going to be ignored in this context anyways
 			super(FabricBlockSettings.of(Material.METAL));
 			this.setDefaultState(this.getStateManager().getDefaultState().with(COLOR, DyeColor.WHITE));

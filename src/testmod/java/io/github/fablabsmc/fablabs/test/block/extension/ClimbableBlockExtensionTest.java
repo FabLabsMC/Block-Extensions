@@ -15,7 +15,7 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.fablabsmc.fablabs.test.blocks.extensions;
+package io.github.fablabsmc.fablabs.test.block.extension;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,9 +23,6 @@ import java.util.Map;
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.ClimbableBlockEvents;
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.TypedTriState;
 import org.spongepowered.asm.mixin.MixinEnvironment;
-
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -35,12 +32,14 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 
 public class ClimbableBlockExtensionTest implements ModInitializer {
 	protected static final VoxelShape BOTTOM_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D);
@@ -101,7 +100,7 @@ public class ClimbableBlockExtensionTest implements ModInitializer {
 	static class DefaultReturnHashMap<K, V> extends HashMap<K, V> {
 		private final V defaultValue;
 
-		public DefaultReturnHashMap(V defaultValue) {
+		DefaultReturnHashMap(V defaultValue) {
 			this.defaultValue = defaultValue;
 		}
 

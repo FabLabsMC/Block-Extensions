@@ -15,37 +15,40 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.fablabsmc.fablabs.test.blocks.extensions;
+package io.github.fablabsmc.fablabs.test.block.extension;
 
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.EnchantmentTablePowerExtension;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.SlipperinessExtension;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EnchantmentTablePowerExtensionTest implements ModInitializer {
-	public static final Block TEST_POWER_BLOCK = ExtensionUtils.registerWithItem("test_enchantment_power_block", new TestBlock());
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+
+public class SlipperinessExtensionTest implements ModInitializer {
+	public static final Block SLIPPERY_TEST = ExtensionUtils.registerWithItem("slippery", new TestBlock());
 
 	@Override
 	public void onInitialize() {
 	}
 
-	private static class TestBlock extends Block implements EnchantmentTablePowerExtension {
+	private static class TestBlock extends Block implements SlipperinessExtension {
 		TestBlock() {
-			super(FabricBlockSettings.of(Material.WOOD));
+			super(FabricBlockSettings.of(Material.METAL));
 		}
 
 		@Override
-		public int getEnchantmentTablePower(BlockState state, World world, BlockPos pos) {
-			if (world.getRegistryKey().equals(World.NETHER)) {
-				return 20;
+		public float getSlipperiness(BlockState state, World world, BlockPos pos, Entity entity) {
+			if (entity instanceof PlayerEntity) {
+				return 1.0F;
 			}
 
-			return 1;
+			return 0.0F;
 		}
 	}
 }
