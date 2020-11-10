@@ -29,6 +29,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
@@ -118,11 +119,7 @@ public final class MapColorTest implements ModInitializer {
 		}
 
 		@Override
-		public void onStacksDropped(BlockState state, World world, BlockPos pos, ItemStack stack) {
-			if (world.isClient()) {
-				return;
-			}
-
+		public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack stack) {
 			// Copy state's color and put it onto item stack
 			stack.getOrCreateTag().putString("Color", state.get(COLOR).name());
 		}
