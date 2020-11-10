@@ -18,7 +18,6 @@
 package io.github.fablabsmc.fablabs.impl.block.extensions;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.loot.context.LootContext;
