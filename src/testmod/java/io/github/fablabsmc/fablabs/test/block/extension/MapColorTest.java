@@ -17,9 +17,12 @@
 
 package io.github.fablabsmc.fablabs.test.block.extension;
 
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.MapColorExtension;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.MapColorExtension;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
@@ -29,6 +32,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
@@ -39,10 +43,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.util.NbtType;
 
 public final class MapColorTest implements ModInitializer {
 	private static final Block MAP_COLOR_TEST = ExtensionUtils.registerWithItem("map_color_test", new TestBlock());
@@ -118,11 +118,7 @@ public final class MapColorTest implements ModInitializer {
 		}
 
 		@Override
-		public void onStacksDropped(BlockState state, World world, BlockPos pos, ItemStack stack) {
-			if (world.isClient()) {
-				return;
-			}
-
+		public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack stack) {
 			// Copy state's color and put it onto item stack
 			stack.getOrCreateTag().putString("Color", state.get(COLOR).name());
 		}
