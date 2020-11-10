@@ -61,7 +61,7 @@ public final class MapColorTest implements ModInitializer {
 		}
 
 		@Override
-		public MaterialColor getColor(BlockState state, BlockView world, BlockPos pos) {
+		public MaterialColor getColor(BlockView world, BlockPos pos, BlockState state) {
 			return state.get(COLOR).getMaterialColor();
 		}
 

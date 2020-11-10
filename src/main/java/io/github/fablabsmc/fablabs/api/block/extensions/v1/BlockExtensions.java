@@ -20,7 +20,9 @@ package io.github.fablabsmc.fablabs.api.block.extensions.v1;
 import io.github.fablabsmc.fablabs.impl.block.extensions.BlockStateExtensions;
 
 import net.minecraft.block.AbstractBlock.AbstractBlockState;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.loot.context.LootContext;
@@ -43,7 +45,7 @@ import net.minecraft.world.World;
  * Depending on how the mod developer of the block being pushed has decided, the block may be considered as immovable
  * since the mod developer cannot guarantee the block is in a certain dimension or vice versa where the block's movement
  * exceeds what should occur.
- * To solve this problem, the custom piston may use {@link BlockExtensions#getPistonBehavior(BlockState, World, BlockPos, Direction, Direction)}
+ * To solve this problem, the custom piston may use {@link BlockExtensions#getPistonBehavior(World, BlockPos, BlockState, Direction, Direction)}
  * in order to provide the additional context a mod may need in order to determine the piston behavior.
  *
  * <p>For mods which call methods in this class, it is <em>highly</em> recommended to prefer the method with the most specific calling context.
@@ -58,26 +60,51 @@ public final class BlockExtensions {
 	 * Gets the piston behavior of a block, taking the world, block's state, position, motion direction and a piston's
 	 * facing direction into account.
 	 *
-	 * @param state the block state
+	 * <p>This method this a more precise calling context of {@link BlockState#getPistonBehavior()}.
+	 *
 	 * @param world the world
 	 * @param pos the position of the block
+	 * @param state the block state
 	 * @param motionDirection the direction this block will be moved in
 	 * @param pistonDirection the direction the piston is facing that is causing the movement
 	 * @return the piston behavior.
 	 */
-	public static PistonBehavior getPistonBehavior(BlockState state, World world, BlockPos pos, Direction motionDirection, Direction pistonDirection) {
+	public static PistonBehavior getPistonBehavior(World world, BlockPos pos, BlockState state, Direction motionDirection, Direction pistonDirection) {
 		return getExtensions(state).getPistonBehavior(world, pos, motionDirection, pistonDirection);
 	}
 
-	public static int getEnchantmentTablePower(BlockState state, World world, BlockPos pos) {
+	/**
+	 * Gets a block's enchantment table power.
+	 * The enchantment table power is used with an enchantment table to determine the maximum level an enchantment table can use.
+	 *
+	 * <p>Note: {@link Blocks#BOOKSHELF bookshelves} will return 0 in this method.
+	 * The implementation of this method is consistent with how vanilla is implemented.
+	 *
+	 * @param world the world
+	 * @param pos the position of the block
+	 * @param state the block state
+	 * @return the enchantment table power.
+	 */
+	public static int getEnchantmentTablePower(World world, BlockPos pos, BlockState state) {
 		return getExtensions(state).getEnchantmentTablePower(world, pos);
 	}
 
-	public static float getSlipperiness(BlockState state, World world, BlockPos pos, Entity entity) {
+	/**
+	 * Gets the slipperiness of a block, taking the world, pos, block state and entity into account.
+	 *
+	 * <p>This is a more precise calling context of {@link Block#getSlipperiness()}.
+	 *
+	 * @param world the world
+	 * @param pos the position of the block
+	 * @param state the block state
+	 * @param entity the entity moving over the block
+	 * @return the slipperiness
+	 */
+	public static float getSlipperiness(World world, BlockPos pos, BlockState state, Entity entity) {
 		return getExtensions(state).getSlipperiness(world, pos, entity);
 	}
 
-	public static Identifier getLootTableId(BlockState state, LootContext.Builder builder) {
+	public static Identifier getLootTableId(LootContext.Builder builder, BlockState state) {
 		return getExtensions(state).getLootTableId(builder);
 	}
 

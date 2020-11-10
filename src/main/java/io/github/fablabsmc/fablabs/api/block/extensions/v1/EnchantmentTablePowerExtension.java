@@ -30,11 +30,11 @@ public interface EnchantmentTablePowerExtension {
 	 *
 	 * <p>This method should be overwritten but not called.
 	 *
-	 * @param state the block state of this block
 	 * @param world the world this is block state is at
 	 * @param pos the position this block state is at
+	 * @param state the block state of this block
 	 * @return the enchantment power.
 	 */
 	@ApiStatus.OverrideOnly
-	int getEnchantmentTablePower(BlockState state, World world, BlockPos pos);
+	int getEnchantmentTablePower(World world, BlockPos pos, BlockState state);
 }

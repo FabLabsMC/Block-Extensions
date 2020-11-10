@@ -43,7 +43,7 @@ public class SlipperinessExtensionTest implements ModInitializer {
 		}
 
 		@Override
-		public float getSlipperiness(BlockState state, World world, BlockPos pos, Entity entity) {
+		public float getSlipperiness(World world, BlockPos pos, BlockState state, Entity entity) {
 			if (entity instanceof PlayerEntity) {
 				return 1.0F;
 			}

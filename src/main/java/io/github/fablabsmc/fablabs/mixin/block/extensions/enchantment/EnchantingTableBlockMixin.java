@@ -46,7 +46,7 @@ abstract class EnchantingTableBlockMixin extends BlockWithEntity {
 	private boolean spawnParticle(BlockState state, Block block, BlockState unused, World world, BlockPos pos, Random random) {
 		if (state.getBlock() instanceof EnchantmentTablePowerExtension) {
 			// Require power > 0 for particles to be emitted
-			if (((EnchantmentTablePowerExtension) state.getBlock()).getEnchantmentTablePower(state, world, pos) > 0) {
+			if (((EnchantmentTablePowerExtension) state.getBlock()).getEnchantmentTablePower(world, pos, state) > 0) {
 				return true;
 			}
 		}

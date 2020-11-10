@@ -17,8 +17,7 @@
 
 package io.github.fablabsmc.fablabs.mixin.block.extensions.piston;
 
-import io.github.fablabsmc.fablabs.impl.block.extensions.BlockStateExtensions;
-import io.github.fablabsmc.fablabs.api.block.extensions.v1.PistonBehaviorExtension;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.BlockExtensions;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -57,18 +56,8 @@ abstract class PistonHandlerMixin {
 		this.fabric_currentPos = currentPos;
 	}
 
-	/**
-	 * Forward the default call to extension method.
-	 * Will call vanilla if the block behind the block state does not implement the extension.
-	 */
 	@Redirect(method = "tryMove", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getPistonBehavior()Lnet/minecraft/block/piston/PistonBehavior;"))
 	private PistonBehavior getBehaviourBeforeBreakingBlocks(BlockState state, BlockPos pos, Direction dir) {
-		final BlockStateExtensions extensions = BlockStateExtensions.get(state);
-
-		if (state.getBlock() instanceof PistonBehaviorExtension) {
-			return extensions.getPistonBehavior(this.world, this.fabric_currentPos, this.motionDirection, this.pistonDirection);
-		}
-
-		return state.getPistonBehavior();
+		return BlockExtensions.getPistonBehavior(this.world, this.fabric_currentPos, state, this.motionDirection, this.pistonDirection);
 	}
 }

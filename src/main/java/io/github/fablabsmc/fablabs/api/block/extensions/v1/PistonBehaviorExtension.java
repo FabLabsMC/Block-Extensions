@@ -31,13 +31,13 @@ public interface PistonBehaviorExtension {
 	 *
 	 * <p>This method should be overwritten but not called.
 	 *
-	 * @param state the block state of this block
 	 * @param world the world this is being tested in
 	 * @param pos the position this block is at
+	 * @param state the block state of this block
 	 * @param motionDirection the direction the block could move
 	 * @param pistonDirection the direction the piston is facing
 	 * @return the piston behavior.
 	 */
 	@ApiStatus.OverrideOnly
-	PistonBehavior getPistonBehavior(BlockState state, World world, BlockPos pos, Direction motionDirection, Direction pistonDirection);
+	PistonBehavior getPistonBehavior(World world, BlockPos pos, BlockState state, Direction motionDirection, Direction pistonDirection);
 }

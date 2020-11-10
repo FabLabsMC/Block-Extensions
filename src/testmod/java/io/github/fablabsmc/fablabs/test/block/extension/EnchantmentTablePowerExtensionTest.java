@@ -41,7 +41,7 @@ public class EnchantmentTablePowerExtensionTest implements ModInitializer {
 		}
 
 		@Override
-		public int getEnchantmentTablePower(BlockState state, World world, BlockPos pos) {
+		public int getEnchantmentTablePower(World world, BlockPos pos, BlockState state) {
 			if (world.getRegistryKey().equals(World.NETHER)) {
 				return 20;
 			}

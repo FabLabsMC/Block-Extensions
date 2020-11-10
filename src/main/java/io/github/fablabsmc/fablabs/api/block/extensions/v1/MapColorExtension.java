@@ -26,5 +26,5 @@ import net.minecraft.world.BlockView;
 
 public interface MapColorExtension {
 	@ApiStatus.OverrideOnly
-	MaterialColor getColor(BlockState state, BlockView world, BlockPos pos);
+	MaterialColor getColor(BlockView world, BlockPos pos, BlockState state);
 }

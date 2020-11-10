@@ -44,7 +44,7 @@ public class PistonBehaviourExtensionTest implements ModInitializer {
 		}
 
 		@Override
-		public PistonBehavior getPistonBehavior(BlockState state, World world, BlockPos pos, Direction motionDirection, Direction pistonDirection) {
+		public PistonBehavior getPistonBehavior(World world, BlockPos pos, BlockState state, Direction motionDirection, Direction pistonDirection) {
 			if (world.getRegistryKey() == World.NETHER) {
 				return PistonBehavior.BLOCK;
 			}

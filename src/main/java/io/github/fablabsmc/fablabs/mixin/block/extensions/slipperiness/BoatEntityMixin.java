@@ -17,7 +17,7 @@
 
 package io.github.fablabsmc.fablabs.mixin.block.extensions.slipperiness;
 
-import io.github.fablabsmc.fablabs.impl.block.extensions.BlockStateExtensions;
+import io.github.fablabsmc.fablabs.api.block.extensions.v1.BlockExtensions;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,7 +27,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.util.math.BlockPos;
@@ -50,7 +49,6 @@ abstract class BoatEntityMixin extends Entity {
 
 	@Redirect(method = "method_7548", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;getSlipperiness()F"))
 	private float modifySlipperiness(Block block) {
-		final BlockState state = this.world.getBlockState(this.fabric_slipperinessTestBlock);
-		return BlockStateExtensions.get(state).getSlipperiness(this.world, this.fabric_slipperinessTestBlock, this);
+		return BlockExtensions.getSlipperiness(this.world, this.fabric_slipperinessTestBlock, this.world.getBlockState(this.fabric_slipperinessTestBlock), this);
 	}
 }

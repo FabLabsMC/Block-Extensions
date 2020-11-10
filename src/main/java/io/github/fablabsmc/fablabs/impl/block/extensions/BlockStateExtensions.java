@@ -17,7 +17,6 @@
 
 package io.github.fablabsmc.fablabs.impl.block.extensions;
 
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.loot.context.LootContext;
@@ -26,26 +25,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-/**
- * An accessor for getting values used in block extensions.
- *
- * @apiNote This interface is not for implementation by users.
- */
 public interface BlockStateExtensions {
 	/*
-	 * Not covered:
-	 * Beacon beam color - Horrid mixin in BeaconBlockEntity, this will require better tooling in future to support.
+	 * Not in this interface due to impl:
+	 * MapColorExtension
+	 * 	Implemented directly onto `BlockState#getMapColor`
 	 */
 
-	/**
-	 * Gets block extensions for a block state.
-	 *
-	 * @param state the block state
-	 * @return the block extensions
+	/*
+	 * Not covered by api due to technical limitations:
+	 * Beacon beam color
+	 * 	Cannot use mixin due to fact mixin cannot displace CHECKCAST instructions.
+	 * 	Two solutions are a duplicated logic or an overwrite. Both are unacceptable
 	 */
-	static BlockStateExtensions get(AbstractBlock.AbstractBlockState state) {
-		return (BlockStateExtensions) state;
-	}
 
 	PistonBehavior getPistonBehavior(World world, BlockPos pos, Direction motionDirection, Direction pistonDirection);
 

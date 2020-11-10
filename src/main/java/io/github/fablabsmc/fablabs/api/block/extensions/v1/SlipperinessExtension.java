@@ -30,12 +30,12 @@ public interface SlipperinessExtension {
 	 *
 	 * <p>This method should be overwritten but not called.
 	 *
-	 * @param state the block state of this block
 	 * @param world the world this is being tested in
 	 * @param pos the position this block is at
+	 * @param state the block state of this block
 	 * @param entity the entity moving over the block
 	 * @return the piston behavior.
 	 */
 	@ApiStatus.OverrideOnly
-	float getSlipperiness(BlockState state, World world, BlockPos pos, Entity entity);
+	float getSlipperiness(World world, BlockPos pos, BlockState state, Entity entity);
 }

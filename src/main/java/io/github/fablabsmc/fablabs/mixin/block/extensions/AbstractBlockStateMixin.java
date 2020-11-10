@@ -52,7 +52,7 @@ abstract class AbstractBlockStateMixin implements BlockStateExtensions {
 	@Override
 	public PistonBehavior getPistonBehavior(World world, BlockPos pos, Direction motionDirection, Direction pistonDirection) {
 		if (this.getBlock() instanceof PistonBehaviorExtension) {
-			return ((PistonBehaviorExtension) this.getBlock()).getPistonBehavior(this.asBlockState(), world, pos, motionDirection, pistonDirection);
+			return ((PistonBehaviorExtension) this.getBlock()).getPistonBehavior(world, pos, this.asBlockState(), motionDirection, pistonDirection);
 		}
 
 		return this.getPistonBehavior();
@@ -61,7 +61,7 @@ abstract class AbstractBlockStateMixin implements BlockStateExtensions {
 	@Override
 	public int getEnchantmentTablePower(World world, BlockPos pos) {
 		if (this.getBlock() instanceof EnchantmentTablePowerExtension) {
-			return ((EnchantmentTablePowerExtension) this.getBlock()).getEnchantmentTablePower(this.asBlockState(), world, pos);
+			return ((EnchantmentTablePowerExtension) this.getBlock()).getEnchantmentTablePower(world, pos, this.asBlockState());
 		}
 
 		return 0;
@@ -70,7 +70,7 @@ abstract class AbstractBlockStateMixin implements BlockStateExtensions {
 	@Override
 	public float getSlipperiness(World world, BlockPos pos, Entity entity) {
 		if (this.getBlock() instanceof SlipperinessExtension) {
-			return ((SlipperinessExtension) this.getBlock()).getSlipperiness(this.asBlockState(), world, pos, entity);
+			return ((SlipperinessExtension) this.getBlock()).getSlipperiness(world, pos, this.asBlockState(), entity);
 		}
 
 		return this.getBlock().getSlipperiness();
@@ -79,7 +79,7 @@ abstract class AbstractBlockStateMixin implements BlockStateExtensions {
 	@Override
 	public Identifier getLootTableId(LootContext.Builder builder) {
 		if (this.getBlock() instanceof BlockLootTableExtension) {
-			return ((BlockLootTableExtension) this.getBlock()).getLootTableId(this.asBlockState(), builder);
+			return ((BlockLootTableExtension) this.getBlock()).getLootTableId(builder, this.asBlockState());
 		}
 
 		return this.getBlock().getLootTableId();
