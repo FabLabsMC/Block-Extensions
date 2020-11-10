@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 
-public class EnchantmentTablePowerExtensionTest implements ModInitializer {
+public final class EnchantmentTablePowerExtensionTest implements ModInitializer {
 	public static final Block TEST_POWER_BLOCK = ExtensionUtils.registerWithItem("test_enchantment_power_block", new TestBlock());
 
 	@Override

@@ -30,7 +30,7 @@ import net.minecraft.world.World;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 
-public class PistonBehaviourExtensionTest implements ModInitializer {
+public final class PistonBehaviourExtensionTest implements ModInitializer {
 	public static final Block TEST_BLOCK = ExtensionUtils.registerWithItem("test_piston_behaviour_block", new TestBlock());
 
 	@Override
