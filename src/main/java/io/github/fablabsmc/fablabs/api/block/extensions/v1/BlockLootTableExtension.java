@@ -23,6 +23,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.util.Identifier;
 
+/**
+ * @see BlockExtensions#getLootTableId(LootContext.Builder, BlockState)
+ */
 public interface BlockLootTableExtension {
 	@ApiStatus.OverrideOnly
 	Identifier getLootTableId(LootContext.Builder builder, BlockState state);

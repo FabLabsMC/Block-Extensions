@@ -25,6 +25,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+/**
+ * @see BlockExtensions#getPistonBehavior(World, BlockPos, BlockState, Direction, Direction)
+ */
 public interface PistonBehaviorExtension {
 	/**
 	 * Gets the piston behavior of this block.

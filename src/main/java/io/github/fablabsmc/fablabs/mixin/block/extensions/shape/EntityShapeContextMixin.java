@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import io.github.fablabsmc.fablabs.api.block.extensions.v1.ShapeContextExtensions;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -32,7 +33,9 @@ import net.minecraft.item.ItemStack;
 
 @Mixin(EntityShapeContext.class)
 abstract class EntityShapeContextMixin implements ShapeContextExtensions {
+	@Unique
 	private ItemStack fabric_heldItem = ItemStack.EMPTY;
+	@Unique
 	private Entity fabric_entity = null;
 
 	@Inject(method = "<init>(Lnet/minecraft/entity/Entity;)V", at = @At("TAIL"))

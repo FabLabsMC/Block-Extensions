@@ -24,6 +24,9 @@ import net.minecraft.block.MaterialColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 
+/**
+ * @see BlockState#getTopMaterialColor(BlockView, BlockPos)
+ */
 public interface MapColorExtension {
 	@ApiStatus.OverrideOnly
 	MaterialColor getColor(BlockView world, BlockPos pos, BlockState state);

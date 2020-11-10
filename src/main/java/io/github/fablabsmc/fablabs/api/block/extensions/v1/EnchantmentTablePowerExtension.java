@@ -23,6 +23,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+/**
+ * @see BlockExtensions#getEnchantmentTablePower(World, BlockPos, BlockState)
+ */
 public interface EnchantmentTablePowerExtension {
 	/**
 	 * Gets the enchantment power this block provides.

@@ -24,6 +24,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+/**
+ * @see BlockExtensions#getSlipperiness(World, BlockPos, BlockState, Entity)
+ */
 public interface SlipperinessExtension {
 	/**
 	 * Gets the slipperiness of this block.
