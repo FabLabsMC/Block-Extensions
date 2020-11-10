@@ -50,16 +50,6 @@ public interface BlockStateExtensions {
 
 	PistonBehavior getPistonBehavior(World world, BlockPos pos, Direction motionDirection, Direction pistonDirection);
 
-	/**
-	 * Gets the enchantment power this block provides.
-	 * If this block should provide no power, the return value should be 0.
-	 *
-	 * <p>Note that the {@link Blocks#BOOKSHELF bookshelves} will return 0.
-	 *
-	 * @param world the world
-	 * @param pos the position of the block
-	 * @return the enchantment power.
-	 */
 	int getEnchantmentTablePower(World world, BlockPos pos);
 
 	float getSlipperiness(World world, BlockPos pos, Entity entity);

@@ -20,7 +20,7 @@ abstract class AbstractBlockStateMixin {
 
 	@Shadow protected abstract BlockState asBlockState();
 
-	@Inject(method = "getTopMaterialColor", at = @At("HEAD"))
+	@Inject(method = "getTopMaterialColor", at = @At("HEAD"), cancellable = true)
 	private void extraContextMapColor(BlockView world, BlockPos pos, CallbackInfoReturnable<MaterialColor> cir) {
 		if (this.getBlock() instanceof MapColorExtension) {
 			cir.setReturnValue(((MapColorExtension) this.getBlock()).getColor(this.asBlockState(), world, pos));
